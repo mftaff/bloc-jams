@@ -28,6 +28,22 @@ var albumMarconi = {
     ]
 };
 
+var albumTaffel = {
+    title: 'Back and Forth',
+    artist: 'Meir Taffel',
+    label: 'Jazz',
+    year: '2012',
+    albumArtUrl: 'assets/images/album_covers/11.png',
+    songs: [
+        { title: 'Re-Thought', duration: '2:11' },
+        { title: 'Sometimes you\'re Enough', duration: '3:51' },
+        { title: 'Sunshine in the Night', duration: '4:21'},
+        { title: 'Running Backwards', duration: '6:14' },
+        { title: 'The Sound of Laughter', duration: '7:45'},
+        { title: 'Midnight Marathon', duration: '5:42'}
+    ]
+};
+
 var createSongRow = function(songNumber, songName, songLength) {
     var template = 
           '<tr class="album-view-song-item">'
@@ -59,5 +75,12 @@ var setCurrentAlbum = function(album) {
 };
 
 window.onload = function() {
-    setCurrentAlbum(albumPicasso);
+    setCurrentAlbum(albumTaffel);
+    
+    var albumCatalog = [albumMarconi, albumPicasso, albumTaffel];
+    document.getElementsByClassName('album-cover-art')[0].addEventListener('click', function(event){
+        albumToSet = albumCatalog.shift();
+        setCurrentAlbum(albumToSet);
+        albumCatalog.push(albumToSet);
+    });
 };
