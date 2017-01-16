@@ -72,6 +72,7 @@ var setCurrentAlbum = function(album) {
     for (var i = 0; i < album.songs.length; i++) {
         albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].title, album.songs[i].duration);   
     }
+    return album;
 };
 
 window.onload = function() {
@@ -79,8 +80,6 @@ window.onload = function() {
     
     var albumCatalog = [albumMarconi, albumPicasso, albumTaffel];
     document.getElementsByClassName('album-cover-art')[0].addEventListener('click', function(event){
-        albumToSet = albumCatalog.shift();
-        setCurrentAlbum(albumToSet);
-        albumCatalog.push(albumToSet);
+        albumCatalog.push(setCurrentAlbum(albumCatalog.shift()));
     });
 };
