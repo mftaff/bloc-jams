@@ -91,6 +91,58 @@ var trackIndex = function(album, song) {
     return album.songs.indexOf(song);  
 };
 
+var nextPreviousSong = function() {
+    console.log($(this).firstChild);
+    if ($(this).children('next')) {
+        
+        var getLastSongNumber = function(index) {
+            return index == 0 ? currentAlbum.songs.length : index;
+        };
+
+        var currentSongIndex = trackIndex(currentAlbum, currentSongFromAlbum);
+        currentSongIndex++;
+
+        if (currentSongIndex >= currentAlbum.songs.length) {
+            currentSongIndex = 0;
+        }
+
+        setSong(currentSongIndex + 1);
+
+        updatePlayerBarSong();
+
+        var lastSongNumber = getLastSongNumber(currentSongIndex);
+        var $nextSongNumberCell = getSongNumberCell(currentlyPlayingSongNumber);
+        var $lastSongNumberCell = getSongNumberCell(lastSongNumber);
+
+        $nextSongNumberCell.html(pauseButtonTemplate);
+        $lastSongNumberCell.html(lastSongNumber);
+    } else if ($(this).children("previous")) {
+
+        var getLastSongNumber = function(index) {
+            return index == (currentAlbum.songs.length - 1) ? 1 : index + 2;
+        };
+
+        var currentSongIndex = trackIndex(currentAlbum, currentSongFromAlbum);
+        currentSongIndex--;
+
+        if (currentSongIndex < 0) {
+            currentSongIndex = currentAlbum.songs.length - 1;
+        }
+
+        setSong(currentSongIndex + 1);
+
+        updatePlayerBarSong();
+
+        var lastSongNumber = getLastSongNumber(currentSongIndex);
+        var $nextSongNumberCell = getSongNumberCell(currentlyPlayingSongNumber);
+        var $lastSongNumberCell = getSongNumberCell(lastSongNumber);
+
+        $nextSongNumberCell.html(pauseButtonTemplate);
+        $lastSongNumberCell.html(lastSongNumber);
+        }
+}; 
+
+
 var nextSong = function() {
     
     var getLastSongNumber = function(index) {
@@ -98,12 +150,12 @@ var nextSong = function() {
     };
     
     var currentSongIndex = trackIndex(currentAlbum, currentSongFromAlbum);
-        currentSongIndex++;
-    
-        if (currentSongIndex >= currentAlbum.songs.length) {
-            currentSongIndex = 0;
-        }
-    
+    currentSongIndex++;
+
+    if (currentSongIndex >= currentAlbum.songs.length) {
+        currentSongIndex = 0;
+    }
+
     setSong(currentSongIndex + 1);
     
     updatePlayerBarSong();
@@ -123,11 +175,11 @@ var previousSong = function() {
     };
     
     var currentSongIndex = trackIndex(currentAlbum, currentSongFromAlbum);
-        currentSongIndex--;
-    
-        if (currentSongIndex < 0) {
-            currentSongIndex = currentAlbum.songs.length - 1;
-        }
+    currentSongIndex--;
+
+    if (currentSongIndex < 0) {
+        currentSongIndex = currentAlbum.songs.length - 1;
+    }
     
     setSong(currentSongIndex + 1);
     
@@ -155,6 +207,6 @@ var $nextButton = $('.main-controls .next');
 
 $(document).ready(function () {
     setCurrentAlbum(albumPicasso);
-    $previousButton.click(previousSong);
-    $nextButton.click(nextSong);
+    $previousButton.click(nextPreviousSong);
+    $nextButton.click(nextPreviousSong);
 });
