@@ -57,6 +57,24 @@ var createSongRow = function(songNumber, songName, songLength) {
     return $row;
 };
 
+var togglePlayFromPlayerBar = function() {
+    var $SongNumberCell = null;
+    if (currentSoundFile === null) { 
+        nextSong();
+    } else if (currentSoundFile.isPaused()) {
+        $SongNumberCell = getSongNumberCell(currentlyPlayingSongNumber);
+        $SongNumberCell.html(pauseButtonTemplate);
+        $('.main-controls .play-pause').html(playerBarPauseButton);
+        currentSoundFile.play();
+    } else if (! currentSoundFile.isPaused()) {
+        $SongNumberCell = getSongNumberCell(currentlyPlayingSongNumber);
+        $SongNumberCell.html(playButtonTemplate);
+        $('.main-controls .play-pause').html(playerBarPlayButton);
+        currentSoundFile.pause();
+    }
+    
+};
+
 var updatePlayerBarSong = function() {
     $(".currently-playing .song-name").html(currentSongFromAlbum.title);
     $(".currently-playing .artist-name").html(currentAlbum.artist);
@@ -178,9 +196,11 @@ var currentVolume = 80;
 
 var $previousButton = $('.main-controls .previous');
 var $nextButton = $('.main-controls .next');
+var $playPauseButton = $('.main-controls .play-pause');
 
 $(document).ready(function () {
     setCurrentAlbum(albumPicasso);
     $previousButton.click(previousSong);
     $nextButton.click(nextSong);
+    $playPauseButton.click(togglePlayFromPlayerBar);
 });
